@@ -1,5 +1,6 @@
 ﻿using DiscountApp.Models;
 using DiscountApp.Services;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
@@ -23,7 +24,7 @@ public class DiscountService : IDiscountService
 
             if (discountCode is null)
             {
-                throw new ArgumentException("The provided code does not exist.", nameof(code));
+                throw new HubException("The provided code does not exist.");
             }
 
             if (discountCode.Consumed)
@@ -39,12 +40,11 @@ public class DiscountService : IDiscountService
         }
         catch (DbUpdateConcurrencyException)
         {
-            throw new ArgumentException("The discount code has already been used by another operation.", nameof(code));
+            throw new HubException("The discount code has already been used by another operation.");
         }
         catch (Exception ex)
         {
-            await transaction.RollbackAsync();
-            throw new Exception("An unexpected error occurred while attempting to use the discount code.", ex);
+            throw new HubException(ex.Message);
         }
     }
 
@@ -80,7 +80,7 @@ public class DiscountService : IDiscountService
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            throw new Exception("An unexpected error occurred while attempting to use the discount code.", ex);
+            throw new HubException(ex.Message);
         }
     }
 
@@ -88,7 +88,7 @@ public class DiscountService : IDiscountService
     {
         if (length is not 7 and not 8)
         {
-            throw new ArgumentException("The length of the code must be 7 or 8 characters.", nameof(length));
+            throw new HubException("The length of the code must be 7 or 8 characters.");
         }
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

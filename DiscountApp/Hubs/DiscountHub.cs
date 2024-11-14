@@ -10,7 +10,7 @@ namespace DiscountApp.Hubs
         public async Task<List<string>> GenerateCodes(ushort count, byte length)
         {
             return count > 2000
-                ? throw new ArgumentException("Cannot generate more than 2000 codes at once.", nameof(count))
+                ? throw new HubException("Cannot generate more than 2000 codes at once.")
                 : await _discountService.GenerateUniqueCodes(count, length);
         }
 
