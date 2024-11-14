@@ -484,4 +484,6 @@ $RECYCLE.BIN/
 *.swp
 
 # db
-discounts.db
+*.db
+*.db-shm
+*.db-wal
