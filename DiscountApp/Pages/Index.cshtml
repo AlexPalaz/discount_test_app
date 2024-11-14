@@ -1,0 +1,27 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Discount Code System</h1>
+    <p>Generate and use discount codes in real time using SignalR.</p>
+
+    <div>
+        <h3>Generate Discount Codes</h3>
+        <input type="number" id="countInput" placeholder="Enter count (max 2000)" />
+        <input type="number" id="lengthInput" placeholder="Enter length (7 or 8)" />
+        <button class="btn btn-primary" onclick="generateCodes()">Generate Codes</button>
+    </div>
+    <div>
+        <h3>Use Discount Code</h3>
+        <input type="text" id="codeInput" placeholder="Enter discount code" />
+        <button class="btn btn-success" onclick="useCode()">Use Code</button>
+    </div>
+
+    <div id="resultContainer" class="mt-4">
+        <h4>Results</h4>
+        <pre id="resultOutput">Results will appear here...</pre>
+    </div>
+</div>
